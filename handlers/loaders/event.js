@@ -5,7 +5,7 @@ eventHandler = async(client) => {
     for (const folder of folders) {
         const files = fs.readdirSync(`./events/${folder}`).filter(f => f.endsWith(".js"))
         for (const file of files) {
-            const event = require(`../events/${folder}/${file}`)
+            const event = require(`../../events/${folder}/${file}`)
             if (event.once) {
                 client.once(event.name, (...args) => event.execute(...args, client));
             } else {

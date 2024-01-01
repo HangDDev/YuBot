@@ -8,7 +8,7 @@ commandHandler = async (client) => {
       .readdirSync(`./commands/${folder}`)
       .filter((f) => f.endsWith(".js"));
     for (const file of files) {
-      const command = require(`../commands/${folder}/${file}`);
+      const command = require(`../../commands/${folder}/${file}`);
       if (command.data.name) {
         client.commandsArray.push(command.data.toJSON());
         client.commands.set(command.data.name, command);

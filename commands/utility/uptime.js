@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, Embed } = require("discord.js")
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js")
 const moment = require("moment");
 require("moment-duration-format");
 
@@ -11,7 +11,14 @@ module.exports = {
         const duration = moment.duration(interaction.client.uptime).format("D [days], H [hrs], m [mins], s [secs]");
         const upvalue = (Date.now() / 1000 - interaction.client.uptime / 1000).toFixed(0);
 
-        const embed = new EmbedBuilder()
+        const embed = interaction.client.embed({
+            authorName: `${interaction.client.user.username} ~ Uptime`,
+            authorIcon: interaction.client.user.displayAvatarURL(),
+            color: "Green"
+        },
+        { name: `⏱️ | Uptime`, value: `${duration}`, inline: true },
+        { name: `⌛ | Up Since`, value: `<t:${upvalue}>`, inline: true })
+        const embed1 = new EmbedBuilder()
         .setAuthor({ name: `${interaction.client.user.username} ~ Uptime`, iconURL: interaction.client.user.displayAvatarURL() })
         .addFields(
             { name: `⏱️ | Uptime`, value: `${duration}`, inline: true },

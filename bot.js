@@ -1,6 +1,5 @@
-const commandHandler = require("./handlers/command.js");
-const eventHandler = require("./handlers/event.js");
 const { Client, Collection, GatewayIntentBits, WebhookClient, ShardEvents, EmbedBuilder, codeBlock } = require("discord.js");
+const fs = require("node:fs")
 
 const client = new Client({
   intents: [
@@ -16,8 +15,18 @@ client.config = require("./config/config.json");
 client.webhooks = require("./config/webhook.json")
 client.commands = new Collection();
 client.commandsArray = [];
-commandHandler(client);
-eventHandler(client);
+client.handler = [];
+
+(() => {
+  console.log("Started loading handlers & functions...")
+  fs.readdirSync("./handlers").forEach(dir => {
+    fs.readdirSync(`./handlers/${dir}`).forEach(file => {
+      client.handler.push(file)
+      require(`./handlers/${dir}/${file}`)(client)
+    })
+  })
+  console.log(`Successfully loaded ${client.handler.length} handlers & functions!`)
+})()
 
 const webHooksArray = ["startLogs", "shardLogs", "consoleLogs", "errorLogs"];
 if (client.config.webhook.id && client.config.webhook.token) {
