@@ -5,7 +5,8 @@ require("moment-duration-format");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("botinfo")
-    .setDescription("Get information of the bot!"),
+    .setDescription("Get information of the bot!")
+    .setDMPermission(true),
   async execute(interaction) {
     const promises = [
         interaction.client.shard.broadcastEval(client => client.guilds.cache.size),
