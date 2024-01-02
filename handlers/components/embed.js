@@ -1,19 +1,26 @@
-const { EmbedBuilder } = require("discord.js")
+const { EmbedBuilder, Embed } = require("discord.js")
 
 module.exports = (client) => {
     client.simpleEmbed = ({
-        interaction = null,
-        description = description,
-        color = "Blue"
-    }, {} ) => {
-        return new EmbedBuilder()
-        .setAuthor({
-             name: interaction.user.username ?? client.user.username,
-             iconURL: interaction.user.displayAvatarURL() ?? client.user.displayAvatarURL()
-        })
-        .setDescription(`${description}`)
-        .setColor(`${color}`)
-        .setFooter({ name: client.user.username, iconURL: client.user.displayAvatarURL() })
+        author = false,
+        interaction = undefined,
+        description,
+        color = "Blue",
+        footer = false
+    } = {} ) => {
+        if (!description) throw new Error(`Description is required for the simple embed.`)
+
+        const embed = new EmbedBuilder()
+        if (author) embed.setAuthor({
+            name: interaction?.user.username ?? client.user.username,
+            iconURL: interaction?.user.displayAvatarURL() ?? client.user.displayAvatarURL()
+       })
+       if (footer) embed.setFooter({ text: client.user.username, iconURL: client.user.displayAvatarURL() })
+
+       embed.setDescription(`${description}`)
+       embed.setColor(`${color}`)
+
+       return embed
     }
 
     client.embed = ({
