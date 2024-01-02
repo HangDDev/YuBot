@@ -18,13 +18,7 @@ module.exports = {
         },
         { name: `⏱️ | Uptime`, value: `${duration}`, inline: true },
         { name: `⌛ | Up Since`, value: `<t:${upvalue}>`, inline: true })
-        const embed1 = new EmbedBuilder()
-        .setAuthor({ name: `${interaction.client.user.username} ~ Uptime`, iconURL: interaction.client.user.displayAvatarURL() })
-        .addFields(
-            { name: `⏱️ | Uptime`, value: `${duration}`, inline: true },
-            { name: `⌛ | Up Since`, value: `<t:${upvalue}>`, inline: true }
-        )
-        .setColor("Green")
+
         await interaction.reply({ embeds: [embed] })
     }
 }
