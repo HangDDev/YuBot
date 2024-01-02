@@ -22,7 +22,7 @@ module.exports = {
     );
 
     const embed = interaction.client.embed(
-      { description: "**🔒 Channel Unlocked**" },
+      { description: "**🔓 Channel Unlocked**" },
       { name: `🔗 Channel`, value: `${channel} (${channel.name} - ${channel.id})` }
     );
 
