@@ -12,6 +12,7 @@ const {
       .setName("ban")
       .setDescription("Bans a user.")
       .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
+      .setDMPermission(false)
       .addUserOption((option) =>
         option
           .setName("user")
