@@ -57,7 +57,8 @@ module.exports = {
     );
 
     if (picture) {
-      embed.setImage(picture.url);
+      kickConfirmationEmbed.addFields({ name: 'Related Image:', value: '👇 See below 👇' });
+      kickConfirmationEmbed.setImage(picture.url)
     }
 
     const row = new ActionRowBuilder().addComponents(
@@ -92,7 +93,7 @@ module.exports = {
 
     collector.on("collect", async (i) => {
       if (i.customId === "confirm_kick") {
-        await handleConfirmKick(i, kick, reason);
+        await handleConfirmKick(i, kick, reason, picture);
       } else if (i.customId === "cancel_kick") {
         await handleCancelKick(i);
       }
@@ -110,7 +111,7 @@ module.exports = {
   },
 };
 
-async function handleConfirmKick(i, userToKick, reason) {
+async function handleConfirmKick(i, userToKick, reason, picture) {
   try {
     const dmEmbed = new EmbedBuilder()
       .setColor("#ff5555")
@@ -122,6 +123,11 @@ async function handleConfirmKick(i, userToKick, reason) {
       )
       .setTimestamp();
 
+    if (picture) {
+      dmEmbed.addFields({ name: 'Related Image:', value: '👇 See below 👇' });
+      dmEmbed.setImage(picture.url)
+    }
+    
     await userToKick
       .send({ embeds: [dmEmbed] })
       .catch((error) =>
@@ -139,19 +145,23 @@ async function handleConfirmKick(i, userToKick, reason) {
         iconURL: i.user.displayAvatarURL(),
       });
 
+    if (picture) {
+      kickConfirmationEmbed.addFields({ name: 'Related Image:', value: '👇 See below 👇' });
+      kickConfirmationEmbed.setImage(picture.url)
+    }
+
     await i.guild.members.kick(userToKick, {
       reason: `Kicked by ${i.user.tag}: ${reason}`,
     });
     await i.reply({ content: "", embeds: [kickConfirmationEmbed] });
   } catch (error) {
-    console.error(error);
     const errorEmbed = new EmbedBuilder()
       .setColor("#ff0000")
       .setTitle("Kick Failed")
-      .setDescription(`Failed to kick **${userToKick.tag}** from the server.`)
+      .setDescription(`Failed to kick **${userToKick.tag}** from the server.\n\n**Reasons which may cause this problem**\nThe user you want to kick may have higher role level than me or is the server owner.`)
       .setTimestamp()
       .setFooter({
-        text: "An error occurred",
+        text: i.client.user.username,
         iconURL: i.client.user.displayAvatarURL(),
       });
     await i.reply({ content: "", embeds: [errorEmbed] });
