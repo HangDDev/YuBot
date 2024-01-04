@@ -1,4 +1,4 @@
-const { EmbedBuilder, Embed } = require("discord.js")
+const { EmbedBuilder, codeBlock } = require("discord.js")
 
 module.exports = (client) => {
     client.simpleEmbed = ({
@@ -49,6 +49,17 @@ module.exports = (client) => {
         }
         if (fields.length > 25) throw new Error(`Cannot add more than 25 fields in an embed!`)
         if (fields.length > 0) embed.addFields(fields)
+        return embed
+    }
+
+    client.noPermEmbed = ({ permission }) => {
+        const embed = new EmbedBuilder()
+        .setTitle(`❌ Missing Permission!`)
+        .setDescription(`I don't have right perimission.`)
+        .setColor("Red")
+        .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })
+        .setFooter({ text: `${client.user.username}`})
+        .setTimestamp()
         return embed
     }
 }

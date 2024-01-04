@@ -4,12 +4,14 @@ const {
   ButtonBuilder,
   ButtonStyle,
   EmbedBuilder,
+  PermissionFlagsBits,
 } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("kick")
     .setDescription("Kicks a user.")
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
     .addUserOption((option) =>
       option
         .setName("user")
@@ -33,6 +35,15 @@ module.exports = {
     const kick = interaction.options.getUser("user");
     const reason = interaction.options.getString("reason");
     const picture = interaction.options.getAttachment("picture");
+
+    const Permission = interaction.client.checkBotPerm(interaction.guild, PermissionFlagsBits.KickMembers)
+
+    if (!Permission) {
+      const embed = interaction.client.noPermEmbed({
+        permission: interaction.client.readableBitField(PermissionFlagsBits.KickMembers)
+      })
+      return interaction.reply({ embeds: [embed] })
+    }
 
     const kickConfirmationEmbed = interaction.client.embed(
       {
