@@ -17,6 +17,15 @@ module.exports = {
     const channel =
       interaction.options.getChannel("channel") || interaction.channel;
 
+    const Permission = interaction.client.checkBotPerm(interaction.guild, PermissionFlagsBits.ManageChannels)
+
+    if (!Permission) {
+      const embed = interaction.client.noPermEmbed({
+        permission: interaction.client.readableBitField(PermissionFlagsBits.ManageChannels)
+      })
+      return interaction.reply({ embeds: [embed] })
+    }
+    
     await channel.permissionOverwrites.edit(
       interaction.guild.roles.cache.find((role) => role.name === "@everyone"), { SendMessages: true }
     );
