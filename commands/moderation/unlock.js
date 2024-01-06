@@ -35,6 +35,7 @@ module.exports = {
       { name: `🔗 Channel`, value: `${channel} (${channel.name} - ${channel.id})` }
     );
 
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply({ content: `Channel unlocked successfully!` });
+    await channel.send({ embeds: [embed] })
   },
 };
