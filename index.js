@@ -50,7 +50,7 @@ manager.on('shardCreate', shard => {
         embeds: [embed],
     });
 
-    console.log(`Starting Shard #${shard.id + 1}...`)
+    console.log(`Started loading Shard #${shard.id + 1}...`)
 
     shard.on("death", (process) => {
         const embed = new EmbedBuilder()
