@@ -21,7 +21,7 @@ commandHandler = async (client) => {
   const rest = new REST().setToken(client.config.bot.token);
 
   try {
-    console.log(`Loading application (/) commands...`);
+    console.log(`Started loading application (/) commands...`);
     const data = await rest.put(
       Routes.applicationCommands(client.config.bot.id),
       { body: client.commandsArray }
