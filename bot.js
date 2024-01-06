@@ -1,5 +1,6 @@
 const { Client, Collection, GatewayIntentBits, WebhookClient, ShardEvents, EmbedBuilder, codeBlock } = require("discord.js");
 const fs = require("node:fs")
+const mongoose = require("mongoose")
 
 const client = new Client({
   intents: [
@@ -19,6 +20,7 @@ client.handler = [];
 
 (() => {
   console.log("Started loading handlers & functions...")
+  console.log("Started connecting to the database...")
   fs.readdirSync("./handlers").forEach(dir => {
     fs.readdirSync(`./handlers/${dir}`).forEach(file => {
       client.handler.push(file)
@@ -26,6 +28,12 @@ client.handler = [];
     })
   })
   console.log(`Successfully loaded ${client.handler.length} handlers & functions!`)
+  mongoose.connect(client.config.database.link, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }).then(() => {
+    console.log("Successfully connected to the database.")
+  })
 })()
 
 const webHooksArray = ["startLogs", "shardLogs", "consoleLogs", "errorLogs"];
