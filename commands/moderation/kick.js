@@ -40,10 +40,21 @@ module.exports = {
     const Permission = interaction.client.checkBotPerm(interaction.guild, PermissionFlagsBits.KickMembers)
 
     if (!Permission) {
-      const embed = interaction.client.noPermEmbed({
+      const embed = interaction.client.botNoPermEmbed({
         permission: interaction.client.readableBitField(PermissionFlagsBits.KickMembers)
       })
-      return interaction.reply({ embeds: [embed] })
+      return interaction.reply({ embeds: [embed], ephemeral: true })
+    }
+
+    if (!kick.kickable) {
+      const embed = interaction.client.embed({
+        title: `❌ Not kickable`,
+        description: `The user ${kick} is not kickable!`,
+        thumbnail: kick.displayAvatarURL(),
+        footerText: interaction.client.user.username,
+      })
+
+      return await interaction.reply({ embeds: [embed], ephemeral: true })
     }
 
     const kickConfirmationEmbed = interaction.client.embed(
@@ -165,7 +176,7 @@ async function handleConfirmKick(i, userToKick, reason, picture) {
         text: i.client.user.username,
         iconURL: i.client.user.displayAvatarURL(),
       });
-    await i.reply({ content: "", embeds: [errorEmbed] });
+    await i.reply({ content: "", embeds: [errorEmbed], ephemeral: true });
   }
 }
 
