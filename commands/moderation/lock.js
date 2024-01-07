@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
+const { ActionRowBuilder, SlashCommandBuilder, ButtonBuilder, ButtonStyle , PermissionFlagsBits, ChannelType } = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -23,19 +23,39 @@ module.exports = {
       const embed = interaction.client.noPermEmbed({
         permission: interaction.client.readableBitField(PermissionFlagsBits.ManageChannels)
       })
-      return interaction.reply({ embeds: [embed] })
+      return interaction.reply({ embeds: [embed], ephemeral: true })
     }
 
     await channel.permissionOverwrites.edit(
       interaction.guild.roles.cache.find((role) => role.name === "@everyone"), { SendMessages: false }
     );
+    await channel.permissionOverwrites.edit(
+      interaction.client.user, { SendMessages: true }
+    );
 
     const embed = interaction.client.embed(
       { description: "**🔒 Channel Locked**" },
-      { name: `🔗 Channel`, value: `${channel} (${channel.name} - ${channel.id})` }
+      { name: `📂 Channel`, value: `${channel} (${channel.name} - ${channel.id})`, inline: true },
+      { name: `⚒️ Moderator`, value: `${interaction.user} (${interaction.user.username} - ${interaction.user.id})`}
     );
 
-    await interaction.reply({ content: `Channel locked successfully!` });
-    await channel.send({ embeds: [embed] })
+    const lock = new ButtonBuilder()
+    .setCustomId(`lock`)
+    .setLabel(`Lock`)
+    .setEmoji(`🔒`)
+    .setStyle(ButtonStyle.Danger)
+
+    const unlock = new ButtonBuilder()
+    .setCustomId(`unlock`)
+    .setLabel(`Unlock`)
+    .setEmoji(`🔓`)
+    .setStyle(ButtonStyle.Success)
+
+    const row = new ActionRowBuilder()
+    .addComponents(lock, unlock);
+
+    await interaction.reply({ content: `Channel locked successfully!`, ephemeral: true });
+    await channel.send({ embeds: [embed], components: [row] })
+    
   },
 };
