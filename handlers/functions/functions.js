@@ -9,4 +9,8 @@ module.exports = (client) => {
     client.checkBotPerm = (guild, permission) => {
         return guild.members.me.permissions.has(permission)
     }
+
+    client.checkUserPerm = (member, permission) => {
+        return member.permissions.has(permission)
+    }
 }
