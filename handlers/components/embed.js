@@ -32,6 +32,7 @@ module.exports = (client) => {
         footerText,
         footerIcon,
         thumbnail,
+        image,
     } = {}, ...fields ) => {
         const embed = new EmbedBuilder()
         if (authorName && authorIcon) embed.setAuthor({ name: authorName , iconURL: authorIcon })
@@ -41,6 +42,7 @@ module.exports = (client) => {
         if (footerText && footerIcon) embed.setFooter({ text: footerText, iconURL: footerIcon })
         if (footerText) embed.setFooter({ text: footerText })
         if (thumbnail) embed.setThumbnail(thumbnail)
+        if (image) embed.setImage(image)
         embed.setColor(color)
     
         for (let field of fields) {
@@ -52,10 +54,21 @@ module.exports = (client) => {
         return embed
     }
 
-    client.noPermEmbed = ({ permission }) => {
+    client.botNoPermEmbed = ({ permission }) => {
         const embed = new EmbedBuilder()
         .setTitle(`❌ Missing Permission!`)
         .setDescription(`I don't have right perimission.`)
+        .setColor("Red")
+        .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })
+        .setFooter({ text: `${client.user.username}`})
+        .setTimestamp()
+        return embed
+    }
+
+    client.userNoPermEmbed = ({ permission }) => {
+        const embed = new EmbedBuilder()
+        .setTitle(`❌ Missing Permission!`)
+        .setDescription(`You don't have right perimission.`)
         .setColor("Red")
         .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })
         .setFooter({ text: `${client.user.username}`})
