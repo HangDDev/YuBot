@@ -40,12 +40,23 @@ const {
       const Permission = interaction.client.checkBotPerm(interaction.guild, PermissionFlagsBits.BanMembers)
   
       if (!Permission) {
-        const embed = interaction.client.noPermEmbed({
+        const embed = interaction.client.botNoPermEmbed({
           permission: interaction.client.readableBitField(PermissionFlagsBits.BanMembers)
         })
-        return interaction.reply({ embeds: [embed] })
+        return interaction.reply({ embeds: [embed], ephemeral: true })
       }
+
+      if (!ban.bannable) {
+        const embed = interaction.client.embed({
+          title: `❌ Not bannable`,
+          description: `The user ${ban} is not bannable!`,
+          thumbnail: ban.displayAvatarURL(),
+          footerText: interaction.client.user.username,
+        })
   
+        return await interaction.reply({ embeds: [embed], ephemeral: true })
+      }
+
       const banConfirmationEmbed = interaction.client.embed(
         {
           title: `🔨 Ban Confirmation`,
@@ -161,7 +172,7 @@ const {
           text: "An error occurred",
           iconURL: i.client.user.displayAvatarURL(),
         });
-      await i.reply({ content: "", embeds: [errorEmbed] });
+      await i.reply({ content: "", embeds: [errorEmbed], ephemeral: true });
     }
   }
   
