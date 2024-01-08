@@ -44,7 +44,7 @@ module.exports = {
         return await interaction.reply({ embeds: [embed], ephemeral: true })
     }
 
-    interaction.channel.bulkDelete(amount + 1).then( async() => {
+    await interaction.channel.bulkDelete(amount).then( async() => {
         const embed = interaction.client.embed({
             authorName: interaction.client.user.username,
             authorIcon: interaction.client.user.displayAvatarURL(),
@@ -53,8 +53,13 @@ module.exports = {
             name: "✉️ | Amount deleted", value: `${amount}`, inline: true
         })
 
-        await interaction.reply({ embeds: [embed] })
+        await interaction.reply({ embeds: [embed] }).then(async message => {
+          setTimeout(() => {
+            message.delete();
+          }, 3000);
+        });
     }).catch(async err => {
+        console.error(err)
         const embed = interaction.client.embed({
             authorName: interaction.client.user.username,
             authorIcon: interaction.client.user.displayAvatarURL(),
