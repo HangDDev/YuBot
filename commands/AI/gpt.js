@@ -5,6 +5,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('gpt')
         .setDescription('Chat with AI')
+        .setDMPermission(true)
         .addStringOption(option =>
             option.setName('message')
                 .setDescription('Your message to AI')
