@@ -16,10 +16,14 @@ module.exports = {
             const request = await axios.get(url);
 
             if (request.status == 200) {
-                if (request.data.chat.length > 2000) {
-                    request.data.chat = `**__I am sorry, the message is too long to send in Discord as Discord has a limit of 2000 characters in one message. Here is the remaining message:__**\n ${request.data.chat.slice(0, 1600)}`
+                if (request.data.chat.length > 4000) {
+                    request.data.chat = `**__I am sorry, the message is too long to send in Discord as Discord has a limit of 4000 characters in one message. Here is the remaining message:__**\n ${request.data.chat.slice(0, 3600)}`
                 }
-                await message.reply(request.data.chat)
+                const embed = message.client.simpleEmbed({
+                    author: true,
+                    description: request.data.chat,
+                })
+                await message.reply({ embeds: [embed] })
             } else {
                 await message.reply(`I am sorry, I could not connect to my chat api. This might be due to a network issue or a temporary outage. Please try again later. Thank you for your patience and understanding.`)
             }
