@@ -7,7 +7,7 @@ module.exports = {
         .setDescription('List all commands or info about a specific command')
         .setDMPermission(true),
     async execute(interaction) {
-        const commandFolders = fs.readdirSync('./commands');
+        const commandFolders = fs.readdirSync('./commands').filter(folder => folder !== "context")
         const embeds = new Map();
         let currentRow = new ActionRowBuilder();
         const allRows = [currentRow];
@@ -24,7 +24,7 @@ module.exports = {
                 const command = require(`./../${folder}/${file}`);
                 let description = `${command.data.description}`;
  
-                if (command.data.options.length > 0) {
+                if (command.data.options && command.data.options.length > 0) {
                     description += '\n**Options:**';
                     command.data.options.forEach(option => {
                         if (!option.required) {
