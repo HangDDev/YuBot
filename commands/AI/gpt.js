@@ -30,11 +30,11 @@ module.exports = {
 
                 await interaction.editReply({ embeds: [embed] });
             } else {
-                await interaction.editReply('An error occurred while fetching chat data.');
+                await interaction.editReply(`${interaction.client.emoji.warn} | An error occurred while fetching chat data.`);
             }
         } catch (error) {
             console.error(error);
-            await interaction.editReply('An error occurred while processing your request.');
+            await interaction.editReply(`${interaction.client.emoji.warn} | An error occurred while processing your request.`);
         }
     },
 };

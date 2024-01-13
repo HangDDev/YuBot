@@ -14,6 +14,7 @@ const client = new Client({
 
 client.config = require("./config/config.json");
 client.webhooks = require("./config/webhook.json")
+client.emoji = require("./config/emoji.json")
 client.commands = new Collection();
 client.commandsArray = [];
 client.handler = [];

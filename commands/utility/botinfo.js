@@ -5,7 +5,7 @@ require("moment-duration-format");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("botinfo")
-    .setDescription("Get information of the bot!")
+    .setDescription("Gets information of the bot.")
     .setDMPermission(true),
   async execute(interaction) {
     const promises = [
@@ -31,19 +31,19 @@ module.exports = {
             }, { name: `🤖 | Bot Name`, value: `${interaction.client.user.username}`, inline: true },
               { name: `🆔 | Bot ID`, value: `${interaction.client.user.id}`, inline: true },
               { name: `💻 | Shards`, value: `${interaction.client.shard.count} Shard(s)`, inline: true },
-              { name: `⚒️ | Bot Developer`, value: `someone.ykh`, inline: true },
+              { name: `${interaction.client.emoji.moderator} | Bot Developer`, value: `someone.ykh`, inline: true },
               { name: `⌨️ | Commands`, value: `${interaction.client.commands.size} commands`, inline: true },
               { name: `🌐 | Servers`, value: `${totalGuilds} servers`, inline: true },
               { name: `👥 | Members`, value: `${totalMembers} members`, inline: true },
-              { name: `📺 | Channels`, value: `${totalChannels}`, inline: true },
+              { name: `${interaction.client.emoji.channel} | Channels`, value: `${totalChannels}`, inline: true },
               { name: `🗓️ | Bot Created`, value: `<t:${Math.round(interaction.client.user.createdTimestamp / 1000)}>`, inline: true },
               { name: `🔼 | Uptime`, value: `${duration}`, inline: true },
               { name: `⏱️ | API Speed`, value: `${interaction.client.ws.ping} ms`, inline: true },
               { name: `💾 | Bot memory`, value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, inline: true },
               { name: `🤖 | Bot Version`, value: `${require(`${process.cwd()}/package.json`).version}`, inline: true },
-              { name: `🔗 | Node.js Version`, value: `${process.version}`, inline: true },
-              { name: `📂 | Discord.js Version`, value: `${version}`, inline: true },
-              { name: `🔗 | Links`, value: `Invite ${interaction.client.user.username}: [[Here](${interaction.client.config.links.invite})] Support Server: [[Here](${interaction.client.config.links.support})]` }
+              { name: `🗄️ | Node.js Version`, value: `${process.version}`, inline: true },
+              { name: `📁 | Discord.js Version`, value: `${version}`, inline: true },
+              { name: `${interaction.client.emoji.link} | Links`, value: `Invite ${interaction.client.user.username}: [[Here](${interaction.client.config.links.invite})] Support Server: [[Here](${interaction.client.config.links.support})]` }
             )
 
             await interaction.reply({ embeds: [embed] });

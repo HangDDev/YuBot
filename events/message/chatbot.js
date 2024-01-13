@@ -25,11 +25,11 @@ module.exports = {
                 })
                 await message.reply({ embeds: [embed] })
             } else {
-                await message.reply(`I am sorry, I could not connect to my chat api. This might be due to a network issue or a temporary outage. Please try again later. Thank you for your patience and understanding.`)
+                await message.reply(`${interaction.client.emoji.warn} | I am sorry, I could not connect to my chat api. This might be due to a network issue or a temporary outage. Please try again later. Thank you for your patience and understanding.`)
             }
         } catch(err) {
             console.error(err)
-            await message.reply(`I am sorry, something went wrong. This might due to errors in my code or an API error. Please try again later or contact my developer in [support server](${message.client.config.links.support}). Thank your for your patience and understanding.`)
+            await message.reply(`${interaction.client.emoji.warn} | I am sorry, something went wrong. This might due to errors in my code or an API error. Please try again later or contact my developer in [support server](${message.client.config.links.support}). Thank your for your patience and understanding.`)
         }
     }
 }

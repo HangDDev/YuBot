@@ -4,7 +4,7 @@ const fs = require('fs');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('help')
-        .setDescription('List all commands or info about a specific command')
+        .setDescription('List all commands or info about a specific command.')
         .setDMPermission(true),
     async execute(interaction) {
         const commandFolders = fs.readdirSync('./commands').filter(folder => folder !== "context")

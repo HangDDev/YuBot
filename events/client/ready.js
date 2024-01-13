@@ -10,15 +10,15 @@ module.exports = {
     });
 
     let embed = new EmbedBuilder()
-      .setTitle(`🆙・Finishing shard`)
+      .setTitle(`🆙 | Finishing shard`)
       .setDescription(`A shard just finished`)
       .addFields(
         {
-          name: "🆔┆ID",
+          name: "🆔 | ID",
           value: `${client.shard.ids[0] + 1}/${client.shard.count}`,
           inline: true,
         },
-        { name: "📃┆State", value: `Ready`, inline: true }
+        { name: "📃 | State", value: `Ready`, inline: true }
       )
       .setColor("Green");
     startLogs.send({

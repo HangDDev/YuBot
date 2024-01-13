@@ -12,9 +12,9 @@ module.exports = {
           command.execute(interaction);
         } catch (error) {
           const embed = new EmbedBuilder()
-            .setTitle("Error")
+            .setTitle(`${interaction.client.emoji.warn} | Error`)
             .setDescription(
-              "Something went wrong while executing the command, please try again later!"
+              `Something went wrong while executing the command, please try again later!`
             )
             .setColor("Red");
           await interaction.reply({ embeds: [embed] });

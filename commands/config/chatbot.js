@@ -35,7 +35,7 @@ module.exports = {
       });
       if (check.Channel)
         return await interaction.reply({
-          content: `The chat bot channel is already setted in this server!`,
+          content: `${interaction.client.emoji.no} | The chat bot channel is already setted in this server!`,
         });
       const Chatbot = await ChatBot.create({
         Guild: interaction.guild.id,
@@ -45,7 +45,7 @@ module.exports = {
       const embed = interaction.client.embed({
         authorName: interaction.client.user.username,
         authorIcon: interaction.client.user.displayAvatarURL(),
-        title: `✅ | Successful`,
+        title: `${interaction.client.emoji.yes} | Successful`,
         description: `Successfully setted chat bot channel as ${channel}.`,
         footerText: interaction.client.user.username,
       });
@@ -64,7 +64,7 @@ module.exports = {
 
       if (!check)
         return await interaction.reply({
-          content: `Chat bot channel is not setted in this server!`,
+          content: `${interaction.client.emoji.no} | Chat bot channel is not setted in this server!`,
         });
 
       const deleted = await ChatBot.deleteOne({ Guild: interaction.guild.id });
@@ -72,10 +72,10 @@ module.exports = {
         {
           authorName: interaction.client.user.username,
           authorIcon: interaction.client.user.displayAvatarURL(),
-          title: `✅ | Successful`,
+          title: `${interaction.client.emoji.yes} | Successful`,
           description: `Successfully resetted chat bot channel.`,
         },
-        { name: `📂 | Original Channel`, value: `<#${check.Channel}>` }
+        { name: `${interaction.client.emoji.channel} | Original Channel`, value: `<#${check.Channel}>` }
       );
 
       await interaction.reply({ embeds: [embed] });

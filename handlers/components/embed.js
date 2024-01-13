@@ -56,7 +56,7 @@ module.exports = (client) => {
 
     client.botNoPermEmbed = ({ permission }) => {
         const embed = new EmbedBuilder()
-        .setTitle(`❌ Missing Permission!`)
+        .setTitle(`${interaction.client.emoji.warn} Missing Permission!`)
         .setDescription(`I don't have right perimission.`)
         .setColor("Red")
         .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })
@@ -67,7 +67,7 @@ module.exports = (client) => {
 
     client.userNoPermEmbed = ({ permission }) => {
         const embed = new EmbedBuilder()
-        .setTitle(`❌ Missing Permission!`)
+        .setTitle(`${interaction.client.emoji.warn} Missing Permission!`)
         .setDescription(`You don't have right perimission.`)
         .setColor("Red")
         .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })

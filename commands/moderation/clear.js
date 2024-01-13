@@ -28,7 +28,7 @@ module.exports = {
         const embed = interaction.client.embed({
             authorName: interaction.client.user.username,
             authorIcon: interaction.client.user.displayAvatarURL(),
-            title: `❌ Failed to clear!`,
+            title: `${interaction.client.emoji.no} Failed to clear!`,
             description: `Cannot clear more than 100 messages at a time!`
         })
         return await interaction.reply({ embeds: [embed], ephemeral: true })
@@ -38,7 +38,7 @@ module.exports = {
         const embed = interaction.client.embed({
             authorName: interaction.client.user.username,
             authorIcon: interaction.client.user.displayAvatarURL(),
-            title: `❌ Failed to clear!`,
+            title: `${interaction.client.emoji.no} Failed to clear!`,
             description: `Cannot clear less than 1 message!`
         })
         return await interaction.reply({ embeds: [embed], ephemeral: true })
@@ -48,9 +48,9 @@ module.exports = {
         const embed = interaction.client.embed({
             authorName: interaction.client.user.username,
             authorIcon: interaction.client.user.displayAvatarURL(),
-            description: `Successfully cleared messages.`
+            description: `${interaction.client.emoji.yes} Successfully cleared messages.`
         }, {
-            name: "✉️ | Amount deleted", value: `${amount}`, inline: true
+            name: `${interaction.client.emoji.message} | Amount deleted`, value: `${amount}`, inline: true
         })
 
         await interaction.reply({ embeds: [embed] }).then(async message => {
@@ -63,7 +63,7 @@ module.exports = {
         const embed = interaction.client.embed({
             authorName: interaction.client.user.username,
             authorIcon: interaction.client.user.displayAvatarURL(),
-            title: `❌ Failed to clear!`,
+            title: `${interaction.client.emoji.warn} Failed to clear!`,
             description: `Something went wrong that I cannot clear messages!`
         })
 

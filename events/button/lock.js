@@ -31,27 +31,27 @@ module.exports = {
               );
 
               const embed = interaction.client.embed(
-                { description: "**🔒 Channel Locked**" },
-                { name: `📂 Channel`, value: `${interaction.channel} (${interaction.channel.name} - ${interaction.channel.id})` },
-                { name: `⚒️ Moderator`, value: `${interaction.user} (${interaction.user.username} - ${interaction.user.id})` }
+                { description: `**${interaction.client.emoji.lock} Channel Locked**` },
+                { name: `${interaction.client.emoji.channel} Channel`, value: `${interaction.channel} (${interaction.channel.name} - ${interaction.channel.id})` },
+                { name: `${interaction.client.emoji.moderator} Moderator`, value: `${interaction.user} (${interaction.user.username} - ${interaction.user.id})` }
               );
           
               const lock = new ButtonBuilder()
               .setCustomId(`lock`)
               .setLabel(`Lock`)
-              .setEmoji(`🔒`)
+              .setEmoji(`${interaction.client.emoji.lock}`)
               .setStyle(ButtonStyle.Danger)
           
               const unlock = new ButtonBuilder()
               .setCustomId(`unlock`)
               .setLabel(`Unlock`)
-              .setEmoji(`🔓`)
+              .setEmoji(`${interaction.client.emoji.unlock}`)
               .setStyle(ButtonStyle.Success)
           
               const row = new ActionRowBuilder()
               .addComponents(lock, unlock);
           
-              await interaction.reply({ content: `Channel locked successfully!`, ephemeral: true });
+              await interaction.reply({ content: `${interaction.client.emoji.yes} | Channel locked successfully!`, ephemeral: true });
               await interaction.channel.send({ embeds: [embed], components: [row] })
         }
     }
