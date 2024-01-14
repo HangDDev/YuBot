@@ -4,6 +4,7 @@ const ChatBot = require("../../schema/chatbot.js")
 
 module.exports = {
     name: Events.MessageCreate,
+    once: false,
     async execute(message) {
         if (!message.guild || message.author.bot) return
         const channel = await ChatBot.findOne({ Guild: message.guild.id, Channel: message.channel.id })

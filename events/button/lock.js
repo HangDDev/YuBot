@@ -2,6 +2,7 @@ const { Events, PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyl
 
 module.exports = {
     name: Events.InteractionCreate,
+    once: false,
     async execute(interaction) {
         if (!interaction.isButton()) return
 
