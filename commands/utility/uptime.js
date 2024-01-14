@@ -16,8 +16,8 @@ module.exports = {
             authorIcon: interaction.client.user.displayAvatarURL(),
             color: "Green"
         },
-        { name: `⏱️ | Uptime`, value: `${duration}`, inline: true },
-        { name: `⌛ | Up Since`, value: `<t:${upvalue}>`, inline: true })
+        { name: `${interaction.client.emoji.up} | Uptime`, value: `${duration}`, inline: true },
+        { name: `${interaction.client.emoji.clock} | Up Since`, value: `<t:${upvalue}>`, inline: true })
 
         await interaction.reply({ embeds: [embed] })
     }

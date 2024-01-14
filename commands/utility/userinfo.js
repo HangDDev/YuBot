@@ -1,5 +1,5 @@
 const { profileImage } = require("discord-arts")
-const { SlashCommandBuilder, AttachmentBuilder, EmbedBuilder } = require("discord.js")
+const { SlashCommandBuilder, AttachmentBuilder } = require("discord.js")
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,7 +30,7 @@ module.exports = {
             authorName: user.username,
             authorIcon: member.displayAvatarURL(),
             image: "attachment://profile.png",
-        }, { name: `🔧 **__General Information__**`, value: `**Username:** ${user.username}\n**Nickname:** ${nickname}\n**ID:** ${user.id}\n**Joined Discord:** ${joinDiscord}\n**Joined Server**: ${joinServer}\n**Bot User:** ${user.bot ? "<:tick:1195642973552119860>" : "<:cross:1195642757260263508>"}\n**Booster:** ${booster}` })
+        }, { name: `${interaction.client.emoji.wrench} **__General Information__**`, value: `**Username:** ${user.username}\n**Nickname:** ${nickname}\n**ID:** ${user.id}\n**Joined Discord:** ${joinDiscord}\n**Joined Server**: ${joinServer}\n**Bot User:** ${user.bot ? "<:tick:1195642973552119860>" : "<:cross:1195642757260263508>"}\n**Booster:** ${booster}` })
 
         await interaction.editReply({ embeds: [embed], files: [profileAttachment] })
     }

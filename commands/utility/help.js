@@ -28,14 +28,14 @@ module.exports = {
                     description += '\n**Options:**';
                     command.data.options.forEach(option => {
                         if (!option.required) {
-                            description += `\n- **__${option.name}__**: ${option.description} (Optional)`;
+                            description += `\n${interaction.client.emoji.arrow} **__${option.name}__**: ${option.description} (Optional)`;
                         } else {
-                            description += `\n- **__${option.name}__**: ${option.description}`;
+                            description += `\n${interaction.client.emoji.arrow} **__${option.name}__**: ${option.description}`;
                         }
                     });
                 }
  
-                categoryEmbed.addFields({ name: `${command.data.name}`, value: description, inline: true });
+                categoryEmbed.addFields({ name: `**${command.data.name}**`, value: description, inline: true });
             }
  
             embeds.set(folder, categoryEmbed);
@@ -45,7 +45,7 @@ module.exports = {
                     .setCustomId(`${folder}-1331`)
                     .setLabel(`${folder}`)
                     .setStyle(ButtonStyle.Primary)
-                    .setEmoji('<code:1135252421430497290>')
+                    .setEmoji(`${interaction.client.emoji.slash}`)
             );
  
             if ((index + 1) % 5 === 0 && index < commandFolders.length - 1) {
