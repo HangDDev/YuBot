@@ -37,15 +37,15 @@ module.exports = {
         console.log(`Started on ${totalGuilds} guilds.`);
 
         let statuttext = [
-          `/help`,
-          `${totalGuilds} servers`,
-          `In version ${require(`${process.cwd()}/package.json`).version}`,
+          `to /help`,
+          `in ${totalGuilds} servers`,
+          `in version ${require(`${process.cwd()}/package.json`).version}`,
         ];
 
         const randomText =
           statuttext[Math.floor(Math.random() * statuttext.length)];
         client.user.setPresence({
-          activities: [{ name: randomText, type: ActivityType.Playing }],
+          activities: [{ name: randomText, type: ActivityType.Listening }],
           status: "online",
         });
       });
