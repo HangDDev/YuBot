@@ -3,13 +3,14 @@ const { ContextMenuCommandBuilder, ApplicationCommandType } = require("discord.j
 module.exports = {
     data: new ContextMenuCommandBuilder()
     .setName("getAvatar")
+    .setDMPermission(false)
     .setType(ApplicationCommandType.User),
     async execute(interaction) {
         const embed = interaction.client.embed({
-            authorName: interaction.user.username,
-            authorIcon: interaction.user.displayAvatarURL(),
-            description: `Avatar of ${interaction.user}`,
-            image: `${interaction.user.displayAvatarURL()}`
+            authorName: interaction.targetUser.username,
+            authorIcon: interaction.targetUser.displayAvatarURL(),
+            description: `Avatar of ${interaction.targetUser}`,
+            image: `${interaction.targetUser.displayAvatarURL()}`
         })
 
         await interaction.reply({ embeds: [embed] })
