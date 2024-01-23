@@ -1,40 +1,39 @@
-const { SlashCommandBuilder } = require('discord.js');
-const axios = require('axios');
+const { SlashCommandBuilder } = require("discord.js");
+const RsnChat = require("rsnchat");
+const config = require("../../config/config.json")
+const rsnchat = new RsnChat(config.api.gpt);
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('gpt')
-        .setDescription('Chat with AI')
-        .setDMPermission(true)
-        .addStringOption(option =>
-            option.setName('message')
-                .setDescription('Your message to AI')
-                .setRequired(true)
-        ),
-    async execute(interaction) {
-        
-        await interaction.deferReply()
-        const message = interaction.options.getString('message');
-        const url = `https://api.artix.cloud/api/v1/AI/gpt3.5T?q=${encodeURIComponent(`Your role is now a chat bot build in a discord bot named YuBot made by someone called someone.ykh and reply to this message from the user: ` + message)}`;
-
-        try {
-            const response = await axios.get(url);
-            if (response.status == 200) {
-                const chatData = response.data.chat; 
-                
-                const embed = {
-                    color: 0x0099ff,
-                    title: 'Chat with GPT-3',
-                    description: chatData,
-                };
-
-                await interaction.editReply({ embeds: [embed] });
-            } else {
-                await interaction.editReply(`${interaction.client.emoji.warn} | An error occurred while fetching chat data.`);
-            }
-        } catch (error) {
-            console.error(error);
-            await interaction.editReply(`${interaction.client.emoji.warn} | An error occurred while processing your request.`);
+  data: new SlashCommandBuilder()
+    .setName("gpt")
+    .setDescription("Chat with AI")
+    .setDMPermission(true)
+    .addStringOption((option) =>
+      option
+        .setName("message")
+        .setDescription("Your message to AI")
+        .setRequired(true)
+    ),
+  async execute(interaction) {
+    await interaction.deferReply();
+    const message = interaction.options.getString("message");
+    try {
+      rsnchat.gpt(message).then(async (response) => {
+        if (response.success) {
+            const embed = message.client.simpleEmbed({
+                author: true,
+                description: response.message,
+            })
+            await interaction.editReply({ embeds: [embed] })
+        } else {
+            await interaction.editReply(`${interaction.client.emoji.warn} | I am sorry, I could not connect to my chat API. This might be due to a network issue or a temporary outage. Please try again later. You may contact my developer in [support server](${interaction.client.config.links.support}). Thank your for your patience and understanding.`);
         }
-    },
+      });
+    } catch (error) {
+      console.error(error);
+      await interaction.editReply(
+        `${interaction.client.emoji.warn} | I am sorry, something went wrong. This might due to errors in my code or an API error. Please try again later or contact my developer in [support server](${interaction.client.config.links.support}). Thank your for your patience and understanding.`
+      );
+    }
+  },
 };
