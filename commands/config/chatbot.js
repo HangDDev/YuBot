@@ -1,11 +1,13 @@
-const { SlashCommandBuilder, ChannelType } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder, ChannelType, PermissionFlagsBits } = require("discord.js");
 const ChatBot = require("../../schema/chatbot.js");
+const GuildSettings = require("../../schema/guildSetting.js")
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("chatbot")
-    .setDescription("Configuations of the chat bot channel.")
+    .setDescription("Configurations of the chat bot channel.")
     .setDMPermission(false)
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addSubcommand((subcommand) =>
       subcommand
         .setName("set")
@@ -33,10 +35,20 @@ module.exports = {
         Guild: interaction.guild.id,
         Channel: channel.id,
       });
-      if (check.Channel)
+      if (check) {
+        const reset = new ButtonBuilder()
+        .setCustomId(`chatbot-reset`)
+        .setLabel(`Reset`)
+        .setEmoji(`🔁`)
+        .setStyle(ButtonStyle.Danger)
+
+        const row = new ActionRowBuilder()
+        .addComponents(reset);
         return await interaction.reply({
           content: `${interaction.client.emoji.no} | The chat bot channel is already setted in this server!`,
+          components: [row]
         });
+      }
       const Chatbot = await ChatBot.create({
         Guild: interaction.guild.id,
         Channel: channel.id,
@@ -59,6 +71,12 @@ module.exports = {
 
       await interaction.reply({ embeds: [embed] });
       await channel.send({ embeds: [embed2] });
+      const settings = await GuildSettings.findOne({ Guild: interaction.guild.id })
+      if (!settings) {
+        const data = await GuildSettings.create({ Guild: interaction.guild.id, ChatBot: true })
+      } else {
+        await GuildSettings.updateOne({ Guild: interaction.guild.id, ChatBot: true })
+      }
     } else if (subcommand == "reset") {
       const check = await ChatBot.findOne({ Guild: interaction.guild.id });
 
@@ -79,6 +97,12 @@ module.exports = {
       );
 
       await interaction.reply({ embeds: [embed] });
+      const settings = await GuildSettings.findOne({ Guild: interaction.guild.id })
+      if (!settings) {
+        const data = await GuildSettings.create({ Guild: interaction.guild.id, ChatBot: false })
+      } else {
+        await GuildSettings.updateOne({ Guild: interaction.guild.id, ChatBot: false })
+      }
     }
   },
 };
