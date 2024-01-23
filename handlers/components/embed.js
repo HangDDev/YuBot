@@ -59,7 +59,7 @@ module.exports = (client) => {
         .setTitle(`${interaction.client.emoji.warn} Missing Permission!`)
         .setDescription(`I don't have right perimission.`)
         .setColor("Red")
-        .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })
+        .addFields({ name: `${client.config.emoji.lock} | Required permission`, value: `${codeBlock(permission.join(", "))}` })
         .setFooter({ text: `${client.user.username}`})
         .setTimestamp()
         return embed
@@ -70,7 +70,7 @@ module.exports = (client) => {
         .setTitle(`${interaction.client.emoji.warn} Missing Permission!`)
         .setDescription(`You don't have right perimission.`)
         .setColor("Red")
-        .addFields({ name: `🗝️ | Required permission`, value: `${codeBlock(permission.join(", "))}` })
+        .addFields({ name: `${client.config.emoji.lock} | Required permission`, value: `${codeBlock(permission.join(", "))}` })
         .setFooter({ text: `${client.user.username}`})
         .setTimestamp()
         return embed
