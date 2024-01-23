@@ -29,7 +29,7 @@ module.exports = {
     if (subcommand == "set") {
       const channel = interaction.options.getChannel("channel") || interaction.channel;
 
-      const check = ChatBot.findOne({
+      const check = await ChatBot.findOne({
         Guild: interaction.guild.id,
         Channel: channel.id,
       });
