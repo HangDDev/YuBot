@@ -20,7 +20,7 @@ module.exports = {
     const Permission = interaction.client.checkBotPerm(interaction.guild, PermissionFlagsBits.ManageChannels)
 
     if (!Permission) {
-      const embed = interaction.client.noPermEmbed({
+      const embed = interaction.client.botNoPermEmbed({
         permission: interaction.client.readableBitField(PermissionFlagsBits.ManageChannels)
       })
       return interaction.reply({ embeds: [embed], ephemeral: true })
