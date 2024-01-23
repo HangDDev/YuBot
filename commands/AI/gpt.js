@@ -26,13 +26,13 @@ module.exports = {
             })
             await interaction.editReply({ embeds: [embed] })
         } else {
-            await interaction.editReply(`${interaction.client.emoji.warn} | I am sorry, I could not connect to my chat API. This might be due to a network issue or a temporary outage. Please try again later. You may contact my developer in [support server](${interaction.client.config.links.support}). Thank your for your patience and understanding.`);
+            await interaction.editReply(`${interaction.client.emoji.warn} | I am sorry, I could not connect to my chat API. This might be due to a network issue or a temporary outage. Please try again later. You may contact our developer in [support server](${interaction.client.config.links.support}). Thank your for your patience and understanding.`);
         }
       });
     } catch (error) {
       console.error(error);
       await interaction.editReply(
-        `${interaction.client.emoji.warn} | I am sorry, something went wrong. This might due to errors in my code or an API error. Please try again later or contact my developer in [support server](${interaction.client.config.links.support}). Thank your for your patience and understanding.`
+        `${interaction.client.emoji.warn} | I am sorry, something went wrong. This might due to errors in my code or an API error. Please try again later or contact our developer in [support server](${interaction.client.config.links.support}). Thank your for your patience and understanding.`
       );
     }
   },
