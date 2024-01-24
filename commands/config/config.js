@@ -5,6 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("config")
     .setDescription("Configurations of the server.")
+    .setDMPermission(false)
     .addSubcommand((subcommand) =>
       subcommand
         .setName("check")
