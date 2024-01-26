@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const RsnChat = require("rsnchat");
+const { RsnChat } = require("rsnchat");
 const config = require("../../config/config.json")
 const rsnchat = new RsnChat(config.api.gpt);
 
