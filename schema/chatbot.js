@@ -11,7 +11,7 @@ const schema = new Schema({
     },
     Turn: {
         type: Boolean,
-        default: false,
+        default: true,
     }
 });
 
