@@ -39,7 +39,7 @@ module.exports = {
             } else {
                 let description = "";
                 for (let value in settings) {
-                    if (settings[value] && typeof settings[value] == "boolean" && !value.startsWith(`$`)) {
+                    if (typeof settings[value] == "boolean" && !value.startsWith(`$`)) {
                         description += `\n${interaction.client.emoji.arrow} ${value}: ${settings[value] ? `${interaction.client.emoji.yes}` : `${interaction.client.emoji.no}`}`
                     }
                 }
