@@ -8,6 +8,10 @@ const schema = new Schema({
     Channel: {
         type: String,
         required: true,
+    },
+    Turn: {
+        type: Boolean,
+        default: false,
     }
 });
 

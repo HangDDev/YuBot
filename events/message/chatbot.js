@@ -12,6 +12,7 @@ module.exports = {
     const channel = await ChatBot.findOne({
       Guild: message.guild.id,
       Channel: message.channel.id,
+      Turn: true
     });
     if (!channel) return;
 

@@ -25,6 +25,9 @@ module.exports = {
     )
     .addSubcommand((subcommand) =>
       subcommand.setName("reset").setDescription("Resets the chat bot channel")
+    )
+    .addSubcommand((subcommand) =>
+      subcommand.setName("turn").setDescription("Turn on/off the chat bot system").addBooleanOption(option => option.setName("turn").setDescription("True: on, false: off").setRequired(true))
     ),
   async execute(interaction) {
     const subcommand = interaction.options.getSubcommand();
@@ -102,6 +105,43 @@ module.exports = {
         const data = await GuildSettings.create({ Guild: interaction.guild.id, ChatBot: false })
       } else {
         await GuildSettings.updateOne({ Guild: interaction.guild.id, ChatBot: false })
+      }
+    } else if (subcommand == "turn") {
+      const turn = interaction.options.getBoolean("turn")
+      const data = await ChatBot.findOne({ Guild: interaction.guild.id })
+      if (!data) {
+        const embed = interaction.client.embed({
+          authorName: interaction.client.user.username,
+          authorIcon: interaction.client.user.displayAvatarURL(),
+          description: `${interaction.client.emoji.warn} Chat bot channel is not setted in this server!`
+        })
+        await interaction.reply({ embeds: [embed] })
+      }
+      const channel = interaction.guild.channels.cache.get(data.Channel)
+      try {
+        await ChatBot.updateOne({ Guild: interaction.guild.id, Turn: turn })
+        const embed = interaction.client.embed({
+          authorName: interaction.client.user.username,
+          authorIcon: interaction.client.user.displayAvatarURL(),
+          description: `${interaction.client.emoji.yes} Successfully turned chat bot system to **__${turn ? "on" : "off"}__**`
+        })
+        await interaction.reply({ embeds: [embed], ephemeral: true })
+        if (channel) {
+          const embed = interaction.client.embed({
+            authorName: interaction.client.user.username,
+            authorIcon: interaction.client.user.displayAvatarURL(),
+            description: `Chat bot system is turned to **__${turn ? "on" : "off"}__** by ${interaction.user}`
+          })
+          await channel.send({ embeds: [embed] })
+        }
+      } catch(err) {
+        console.error(err)
+        const embed = interaction.client.embed({
+          authorName: interaction.client.user.username,
+          authorIcon: interaction.client.user.displayAvatarURL(),
+          description: `${interaction.client.emoji.warn} Something went wrong while updating the configuration! Try again later or join my [support server](${interaction.client.config.links.support}) for more help.`
+        })
+        await interaction.reply({ embeds: [embed], ephemeral: true })
       }
     }
   },
