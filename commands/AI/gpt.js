@@ -20,7 +20,7 @@ module.exports = {
     try {
       rsnchat.gpt(message).then(async (response) => {
         if (response.success) {
-            const embed = message.client.simpleEmbed({
+            const embed = interaction.client.simpleEmbed({
                 author: true,
                 description: response.message,
             })
