@@ -115,7 +115,7 @@ module.exports = {
           authorIcon: interaction.client.user.displayAvatarURL(),
           description: `${interaction.client.emoji.warn} Chat bot channel is not setted in this server!`
         })
-        await interaction.reply({ embeds: [embed] })
+        return await interaction.reply({ embeds: [embed] })
       }
       const channel = interaction.guild.channels.cache.get(data.Channel)
       try {
