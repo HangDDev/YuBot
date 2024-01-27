@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("discord.js");
 const GuildSettings = require("../../schema/guildSetting.js")
+const ChatBot = require("../../schema/chatbot.js")
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -10,9 +11,21 @@ module.exports = {
       subcommand
         .setName("check")
         .setDescription("Check if the configurations are setted in this server or not.")
+    )
+    .addSubcommandGroup((group) =>
+      group
+        .setName("view")
+        .setDescription("View detailed information of configurations in the server")
+        .addSubcommand(subcommand =>
+          subcommand
+            .setName("chatbot")
+            .setDescription("View detailed information of the chat bot configuration of the server")
+        )
     ),
     async execute(interaction) {
-        const subcommand = interaction.options.getSubcommand()
+        const group = interaction.options.getSubcommandGroup()
+        if (!group) {
+            const subcommand = interaction.options.getSubcommand()
         if (subcommand == "check") {
             const settings = await GuildSettings.findOne({ Guild: interaction.guild.id });
             if (!settings) {
@@ -50,6 +63,30 @@ module.exports = {
                     description: description
                 })
                 await interaction.reply({ embeds: [embed] })
+            }
+        }
+        } else if (group == "view") {
+            const subcommand = interaction.options.getSubcommand()
+            if (subcommand == "chatbot") {
+                const data = await ChatBot.findOne({ Guild: interaction.guild.id })
+                if (!data) {
+                    const embed = interaction.client.embed({
+                        authorName: interaction.client.user.username,
+                        authorIcon: interaction.client.user.displayAvatarURL(),
+                        description: `${interaction.client.emoji.warn} Chat bot system is not configured in this server!`
+                    })
+                    return await interaction.reply({ embeds: [embed] })
+                } else {
+                    const embed = interaction.client.embed({
+                        authorName: interaction.client.user.username,
+                        authorIcon: interaction.client.user.displayAvatarURL(),
+                        description: `Configurations of chat bot system in this server.`
+                    },
+                    { name: `${interaction.client.emoji.channel} Channel`, value: `<#${data.Channel}> (${data.Channel})`},
+                    { name: `${interaction.client.emoji.wrench} Turned on`, value: `${data.Turn}`})
+
+                    await interaction.reply({ embeds: [embed] })
+                }
             }
         }
     }

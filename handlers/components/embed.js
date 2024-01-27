@@ -33,6 +33,7 @@ module.exports = (client) => {
         footerIcon,
         thumbnail,
         image,
+        timestamp = true,
     } = {}, ...fields ) => {
         const embed = new EmbedBuilder()
         if (authorName && authorIcon) embed.setAuthor({ name: authorName , iconURL: authorIcon })
@@ -43,6 +44,7 @@ module.exports = (client) => {
         if (footerText) embed.setFooter({ text: footerText })
         if (thumbnail) embed.setThumbnail(thumbnail)
         if (image) embed.setImage(image)
+        if (timestamp) embed.setTimestamp()
         embed.setColor(color)
     
         for (let field of fields) {
