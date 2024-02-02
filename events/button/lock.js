@@ -7,7 +7,7 @@ module.exports = {
         if (!interaction.isButton()) return
 
         if (interaction.customId == "lock") {
-            const userPermission = interaction.client.checkUserPerm(interaction.member, PermissionFlagsBits.ManageChannels)
+            const userPermission = interaction.client.checkMemberPerm(interaction.member, PermissionFlagsBits.ManageChannels)
 
         if (!userPermission) {
             const embed = interaction.client.userNoPermEmbed({

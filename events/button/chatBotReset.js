@@ -8,7 +8,7 @@ module.exports = {
     if (!interaction.isButton()) return;
 
     if (interaction.customId == "chatbot-reset") {
-      const Permission = interaction.client.checkUserPerm(
+      const Permission = interaction.client.checkMemberPerm(
         interaction.member,
         PermissionFlagsBits.ManageGuild
       );
