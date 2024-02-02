@@ -119,7 +119,7 @@ module.exports = {
       }
       const channel = interaction.guild.channels.cache.get(data.Channel)
       try {
-        await ChatBot.updateOne({ Guild: interaction.guild.id, Turn: turn })
+        await ChatBot.updateOne({ Guild: interaction.guild.id }, { Turn: turn})
         const embed = interaction.client.embed({
           authorName: interaction.client.user.username,
           authorIcon: interaction.client.user.displayAvatarURL(),
