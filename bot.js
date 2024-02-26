@@ -1,41 +1,39 @@
-const { Client, Collection, GatewayIntentBits, WebhookClient, ShardEvents, EmbedBuilder, codeBlock } = require("discord.js");
-const fs = require("node:fs")
-const mongoose = require("mongoose")
-
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
-    GatewayIntentBits.GuildMembers,
-    GatewayIntentBits.GuildPresences,
-  ],
-});
-
-client.config = require("./config/config.json");
-client.webhooks = require("./config/webhook.json")
-client.emoji = require("./config/emoji.json")
-client.commands = new Collection();
-client.commandsArray = [];
-client.handler = [];
+const {
+  WebhookClient,
+  ShardEvents,
+  EmbedBuilder,
+  codeBlock,
+} = require("discord.js");
+const fs = require("node:fs");
+const mongoose = require("mongoose");
+const { YuBot } = require("./structure/client.js");
+const client = new YuBot({ database: true });
 
 (() => {
-  console.log("Started loading handlers & functions...")
-  console.log("Started connecting to the database...")
-  fs.readdirSync("./handlers").forEach(dir => {
-    fs.readdirSync(`./handlers/${dir}`).forEach(file => {
-      client.handler.push(file)
-      require(`./handlers/${dir}/${file}`)(client)
-    })
-  })
-  console.log(`Successfully loaded ${client.handler.length} handlers & functions!`)
-  mongoose.connect(client.config.database.link, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then(() => {
-    console.log("Successfully connected to the database.")
-  })
-})()
+  console.log("Started loading handlers & functions...");
+  console.log("Started connecting to the database...");
+  fs.readdirSync("./handlers").forEach((dir) => {
+    fs.readdirSync(`./handlers/${dir}`).forEach((file) => {
+      client.handler.push(file);
+      require(`./handlers/${dir}/${file}`)(client);
+    });
+  });
+  console.log(
+    `Successfully loaded ${client.handler.length} handlers & functions!`
+  );
+  if (client.database) {
+    mongoose
+      .connect(client.config.database.link, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then(() => {
+        console.log("Successfully connected to the database.");
+      });
+  } else {
+    console.log("Database turned off!");
+  }
+})();
 
 const webHooksArray = ["startLogs", "shardLogs", "consoleLogs", "errorLogs"];
 if (client.config.webhook.id && client.config.webhook.token) {
