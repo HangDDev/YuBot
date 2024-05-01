@@ -1,5 +1,5 @@
 # YuBot
- A multipurpose Discord bot made for improving servers
+ A multipurpose Discord bot made for improving Discord servers
 
 ---
 
